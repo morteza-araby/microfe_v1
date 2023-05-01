@@ -6,10 +6,11 @@ name: deploy-container
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]  
+    branches: [main]
+    paths: [packages/container/**]
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  workflow_dispatch: packages/container
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,7 +31,7 @@ jobs:
       # Build
       - name: Run a multi-line script
         run: npm run build
-      
+
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
